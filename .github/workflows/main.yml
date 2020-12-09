@@ -10,6 +10,30 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
+      - id: release
+        name: release on push
+        uses: rymndhng/release-on-push-action@v0.16.0
+        with:
+          bump_version_scheme: patch
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      # - name: npm install and gen
+      #   env:
+      #     PRISMIC_KEY: ${{ secrets.PRISMIC_KEY }}
+      #     API_KEY: ${{ secrets.API_KEY }}
+      #   run: |
+      #     npm install
+      #     npm run generate
+      # - name: Archive production artifacts
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: trufl-${{ steps.release.outputs.version }}
+      #     path: |
+      #       dist
+      #       !dist/**/*.md
       - name: Repository Dispatch
         uses: peter-evans/repository-dispatch@v1
         with:
